@@ -1,6 +1,7 @@
 type Query {
     employees(page: Int, size: Int): [Employee!]!
     employee(id: ID!): Employee
+    search(text: String!, page: Int, size: Int): [Employee!]!
     departments: [Department!]!
 }
 

@@ -38,6 +38,11 @@ public class DirectoryGraph {
     }
 
     @QueryMapping
+    public List<Employee> search(@Argument String text, @Argument Integer page, @Argument Integer size) {
+        return employees.search(text, Paging.of(page, size));
+    }
+
+    @QueryMapping
     public List<Department> departments() {
         return departments.all();
     }
