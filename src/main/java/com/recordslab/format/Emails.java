@@ -1,7 +1,5 @@
 package com.recordslab.format;
 
-import java.util.Locale;
-
 /** Rule 10: emails are shown in lower case in every format. */
 public final class Emails {
     private Emails() {
@@ -11,6 +9,6 @@ public final class Emails {
         if (email == null) {
             return null;
         }
-        return email.trim().toLowerCase(Locale.ROOT);
+        return email.trim().toLowerCase();
     }
 }
