@@ -3,10 +3,12 @@ package com.recordslab.service;
 import com.recordslab.db.DepartmentRepository;
 import com.recordslab.db.EmployeeRepository;
 import com.recordslab.model.Department;
+import com.recordslab.model.Employee;
 import com.recordslab.query.Paging;
 import com.recordslab.view.DepartmentView;
 import com.recordslab.view.HrEmployee;
 import com.recordslab.view.PublicEmployee;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -45,8 +47,12 @@ public class Directory {
     /** Everyone, for a full export: one snapshot (rule 11). */
     @Transactional(readOnly = true)
     public List<PublicEmployee> everyone() {
-        Map<Long, Department> byId = departments.byId();
-        return employees.all().stream().map(e -> PublicEmployee.of(e, byId.get(e.departmentId()))).toList();
+        List<PublicEmployee> out = new ArrayList<>();
+        for (Employee e : employees.all()) {
+            Department d = departments.find(e.departmentId()).orElseThrow();
+            out.add(PublicEmployee.of(e, d));
+        }
+        return out;
     }
 
     public List<DepartmentView> departments() {
