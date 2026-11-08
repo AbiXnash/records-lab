@@ -12,7 +12,7 @@ public final class Access {
     }
 
     public static void requireHr(String role) {
-        if (!HR.equals(role)) {
+        if (role == null || role != HR) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "This view is for HR only.");
         }
     }
