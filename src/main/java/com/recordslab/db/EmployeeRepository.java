@@ -40,9 +40,9 @@ public class EmployeeRepository {
                 .optional();
     }
 
-    /** Every active employee, for the exports. */
+    /** Every employee, for the exports. */
     public List<Employee> all() {
-        return jdbc.sql(SELECT + " WHERE deleted_at IS NULL" + ORDER).query(this::row).list();
+        return jdbc.sql(SELECT + ORDER).query(this::row).list();
     }
 
     /** Active employees whose given or family name contains the text, ignoring case. */
