@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -47,9 +48,9 @@ public class EmployeeRepository {
 
     /** Active employees whose given or family name contains the text, ignoring case. */
     public List<Employee> search(String text, Paging paging) {
-        return jdbc.sql(SELECT + " WHERE deleted_at IS NULL AND (LOWER(family_name) LIKE '%" + text.toLowerCase()
-                        + "%' OR LOWER(given_name) LIKE '%" + text.toLowerCase() + "%')" + ORDER
-                        + " LIMIT :size OFFSET :offset")
+        return jdbc.sql(SELECT + " WHERE deleted_at IS NULL AND (LOWER(family_name) LIKE :q OR LOWER(given_name) LIKE :q)"
+                        + ORDER + " LIMIT :size OFFSET :offset")
+                .param("q", "%" + text.toLowerCase(Locale.ROOT) + "%")
                 .param("size", paging.size())
                 .param("offset", paging.offset())
                 .query(this::row)
