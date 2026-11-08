@@ -1,0 +1,21 @@
+type Query {
+    employees(page: Int, size: Int): [Employee!]!
+    employee(id: ID!): Employee
+    departments: [Department!]!
+}
+
+type Employee {
+    id: ID!
+    givenName: String!
+    familyName: String!
+    email: String!
+    hiredAt: String!
+    department: Department!
+}
+
+type Department {
+    id: ID!
+    name: String!
+    code: String!
+    headCount: Int!
+}

@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: records-lab
+  datasource:
+    url: jdbc:h2:mem:records;DB_CLOSE_DELAY=-1
+  sql:
+    init:
+      mode: always
+  graphql:
+    graphiql:
+      enabled: true
+server:
+  port: 8090

@@ -1,0 +1,52 @@
+package com.recordslab.service;
+
+import com.recordslab.db.DepartmentRepository;
+import com.recordslab.db.EmployeeRepository;
+import com.recordslab.model.Department;
+import com.recordslab.query.Paging;
+import com.recordslab.view.DepartmentView;
+import com.recordslab.view.HrEmployee;
+import com.recordslab.view.PublicEmployee;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+@Service
+public class Directory {
+    private final EmployeeRepository employees;
+    private final DepartmentRepository departments;
+
+    public Directory(EmployeeRepository employees, DepartmentRepository departments) {
+        this.employees = employees;
+        this.departments = departments;
+    }
+
+    public List<PublicEmployee> page(Paging paging) {
+        Map<Long, Department> byId = departments.byId();
+        return employees.page(paging).stream().map(e -> PublicEmployee.of(e, byId.get(e.departmentId()))).toList();
+    }
+
+    public Optional<PublicEmployee> one(long id) {
+        Map<Long, Department> byId = departments.byId();
+        return employees.find(id).map(e -> PublicEmployee.of(e, byId.get(e.departmentId())));
+    }
+
+    public Optional<HrEmployee> hr(long id) {
+        Map<Long, Department> byId = departments.byId();
+        return employees.find(id).map(e -> HrEmployee.of(e, byId.get(e.departmentId())));
+    }
+
+    /** Everyone, for a full export: one snapshot (rule 11). */
+    @Transactional(readOnly = true)
+    public List<PublicEmployee> everyone() {
+        Map<Long, Department> byId = departments.byId();
+        return employees.all().stream().map(e -> PublicEmployee.of(e, byId.get(e.departmentId()))).toList();
+    }
+
+    public List<DepartmentView> departments() {
+        Map<Long, Integer> counts = employees.headCounts();
+        return departments.all().stream().map(d -> DepartmentView.of(d, counts.getOrDefault(d.id(), 0))).toList();
+    }
+}
