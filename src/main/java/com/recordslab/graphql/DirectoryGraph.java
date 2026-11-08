@@ -29,7 +29,7 @@ public class DirectoryGraph {
 
     @QueryMapping
     public List<Employee> employees(@Argument Integer page, @Argument Integer size) {
-        return employees.page(Paging.of(page, size));
+        return employees.page(new Paging(page == null ? 1 : page, size == null ? Paging.DEFAULT_SIZE : size));
     }
 
     @QueryMapping
