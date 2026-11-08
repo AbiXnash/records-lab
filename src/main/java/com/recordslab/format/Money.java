@@ -9,7 +9,7 @@ public final class Money {
     }
 
     public static BigDecimal round(BigDecimal amount) {
-        return amount.setScale(2, RoundingMode.HALF_EVEN);
+        return amount.setScale(2, RoundingMode.HALF_UP);
     }
 
     public static String format(BigDecimal amount) {
