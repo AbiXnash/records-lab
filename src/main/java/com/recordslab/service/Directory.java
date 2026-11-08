@@ -53,6 +53,14 @@ public class Directory {
         return out;
     }
 
+    public Optional<DepartmentView> department(String code) {
+        Map<Long, Integer> counts = employees.headCounts();
+        return departments.all().stream()
+                .filter(d -> d.code().equalsIgnoreCase(code))
+                .findFirst()
+                .map(d -> DepartmentView.of(d, counts.getOrDefault(d.id(), 0)));
+    }
+
     public List<DepartmentView> departments() {
         Map<Long, Integer> counts = employees.headCounts();
         return departments.all().stream().map(d -> DepartmentView.of(d, counts.getOrDefault(d.id(), 0))).toList();

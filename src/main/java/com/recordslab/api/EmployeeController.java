@@ -52,4 +52,9 @@ public class EmployeeController {
     public List<DepartmentView> departments() {
         return directory.departments();
     }
+
+    @GetMapping("/departments/{code}")
+    public DepartmentView department(@PathVariable String code) {
+        return directory.department(code).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
 }
