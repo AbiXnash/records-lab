@@ -31,18 +31,22 @@ public class XmlExportController {
         xml.writeStartElement("employees");
         xml.writeAttribute("exportedAt", STAMP.format(new Date()));
         for (PublicEmployee e : directory.everyone()) {
-            xml.writeStartElement("employee");
-            xml.writeAttribute("id", Long.toString(e.id()));
-            text(xml, "givenName", e.givenName());
-            text(xml, "familyName", e.familyName());
-            text(xml, "email", e.email());
-            text(xml, "department", e.department());
-            text(xml, "hiredAt", e.hiredAt());
-            xml.writeEndElement();
+            employee(xml, e);
         }
         xml.writeEndElement();
         xml.writeEndDocument();
         xml.flush();
+    }
+
+    private static void employee(XMLStreamWriter xml, PublicEmployee e) throws XMLStreamException {
+        xml.writeStartElement("employee");
+        xml.writeAttribute("id", Long.toString(e.id()));
+        text(xml, "givenName", e.givenName());
+        text(xml, "familyName", e.familyName());
+        text(xml, "email", e.email());
+        text(xml, "department", e.department());
+        text(xml, "hiredAt", e.hiredAt());
+        xml.writeEndElement();
     }
 
     private static void text(XMLStreamWriter xml, String name, String value) throws XMLStreamException {
