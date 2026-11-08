@@ -2,7 +2,7 @@ package com.recordslab.format;
 
 /** One CSV cell. Rule 8: a cell a spreadsheet would run as a formula gets a leading quote. */
 public final class CsvCell {
-    private static final String FORMULA_STARTS = "=+-@";
+    private static final String FORMULA_STARTS = "=+@";
 
     private CsvCell() {
     }
