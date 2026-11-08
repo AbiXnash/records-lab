@@ -45,6 +45,17 @@ public class EmployeeRepository {
         return jdbc.sql(SELECT + " WHERE deleted_at IS NULL" + ORDER).query(this::row).list();
     }
 
+    /** Active employees whose given or family name contains the text, ignoring case. */
+    public List<Employee> search(String text, Paging paging) {
+        return jdbc.sql(SELECT + " WHERE deleted_at IS NULL AND (LOWER(family_name) LIKE '%" + text.toLowerCase()
+                        + "%' OR LOWER(given_name) LIKE '%" + text.toLowerCase() + "%')" + ORDER
+                        + " LIMIT :size OFFSET :offset")
+                .param("size", paging.size())
+                .param("offset", paging.offset())
+                .query(this::row)
+                .list();
+    }
+
     /** Active employees per department id (rule 12). */
     public Map<Long, Integer> headCounts() {
         Map<Long, Integer> counts = new HashMap<>();

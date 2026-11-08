@@ -31,6 +31,12 @@ public class EmployeeController {
         return directory.page(Paging.of(page, size));
     }
 
+    @GetMapping("/employees/search")
+    public List<PublicEmployee> search(@RequestParam String q, @RequestParam(required = false) Integer page,
+                                       @RequestParam(required = false) Integer size) {
+        return directory.search(q, Paging.of(page, size));
+    }
+
     @GetMapping("/employees/{id}")
     public PublicEmployee one(@PathVariable long id) {
         return directory.one(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

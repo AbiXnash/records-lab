@@ -28,6 +28,11 @@ public class Directory {
         return employees.page(paging).stream().map(e -> PublicEmployee.of(e, byId.get(e.departmentId()))).toList();
     }
 
+    public List<PublicEmployee> search(String text, Paging paging) {
+        Map<Long, Department> byId = departments.byId();
+        return employees.search(text, paging).stream().map(e -> PublicEmployee.of(e, byId.get(e.departmentId()))).toList();
+    }
+
     public Optional<PublicEmployee> one(long id) {
         Map<Long, Department> byId = departments.byId();
         return employees.find(id).map(e -> PublicEmployee.of(e, byId.get(e.departmentId())));
