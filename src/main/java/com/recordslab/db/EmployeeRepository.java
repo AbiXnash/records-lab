@@ -59,7 +59,7 @@ public class EmployeeRepository {
     /** Active employees per department id (rule 12). */
     public Map<Long, Integer> headCounts() {
         Map<Long, Integer> counts = new HashMap<>();
-        jdbc.sql("SELECT department_id, COUNT(*) AS n FROM employee WHERE deleted_at IS NULL GROUP BY department_id")
+        jdbc.sql("SELECT department_id, COUNT(*) AS n FROM employee GROUP BY department_id")
                 .query(rs -> {
                     counts.put(rs.getLong("department_id"), rs.getInt("n"));
                 });
