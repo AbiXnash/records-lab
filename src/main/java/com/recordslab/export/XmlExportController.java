@@ -4,6 +4,8 @@ import com.recordslab.service.Directory;
 import com.recordslab.view.PublicEmployee;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
@@ -13,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 /** The payroll provider's import: every active employee as XML, UTF-8. */
 @RestController
 public class XmlExportController {
+    private static final SimpleDateFormat STAMP = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
+
     private final Directory directory;
 
     public XmlExportController(Directory directory) {
@@ -25,6 +29,7 @@ public class XmlExportController {
         XMLStreamWriter xml = XMLOutputFactory.newFactory().createXMLStreamWriter(response.getOutputStream(), "UTF-8");
         xml.writeStartDocument("UTF-8", "1.0");
         xml.writeStartElement("employees");
+        xml.writeAttribute("exportedAt", STAMP.format(new Date()));
         for (PublicEmployee e : directory.everyone()) {
             xml.writeStartElement("employee");
             xml.writeAttribute("id", Long.toString(e.id()));
