@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class Directory {
@@ -44,8 +43,7 @@ public class Directory {
         return employees.find(id).map(e -> HrEmployee.of(e, departments.find(e.departmentId()).get()));
     }
 
-    /** Everyone, for a full export: one snapshot (rule 11). */
-    @Transactional(readOnly = true)
+    /** Everyone, for a full export. */
     public List<PublicEmployee> everyone() {
         List<PublicEmployee> out = new ArrayList<>();
         for (Employee e : employees.all()) {
