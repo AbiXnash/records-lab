@@ -39,8 +39,7 @@ public class Directory {
     }
 
     public Optional<HrEmployee> hr(long id) {
-        Map<Long, Department> byId = departments.byId();
-        return employees.find(id).map(e -> HrEmployee.of(e, byId.get(e.departmentId())));
+        return employees.find(id).map(e -> HrEmployee.of(e, departments.find(e.departmentId()).get()));
     }
 
     /** Everyone, for a full export: one snapshot (rule 11). */
