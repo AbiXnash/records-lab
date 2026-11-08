@@ -28,7 +28,7 @@ public class EmployeeController {
     @GetMapping("/employees")
     public List<PublicEmployee> list(@RequestParam(required = false) Integer page,
                                      @RequestParam(required = false) Integer size) {
-        return directory.page(Paging.of(page, size));
+        return directory.page(Paging.of(size, page));
     }
 
     @GetMapping("/employees/search")
