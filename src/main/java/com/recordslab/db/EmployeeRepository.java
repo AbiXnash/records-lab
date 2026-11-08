@@ -17,7 +17,7 @@ public class EmployeeRepository {
     private static final String SELECT = "SELECT id, given_name, family_name, email, department_id, hired_at, salary, "
             + "national_id, deleted_at FROM employee";
     /** Rule 9: one order everywhere, ignoring case, with the id last so pages never overlap. */
-    private static final String ORDER = " ORDER BY LOWER(family_name), LOWER(given_name), id";
+    private static final String ORDER = " ORDER BY family_name, given_name";
 
     private final JdbcClient jdbc;
 
