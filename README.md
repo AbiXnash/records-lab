@@ -34,3 +34,9 @@ it listens on port 8090.
 11. **An export is one snapshot.** A full export reads the employees and departments in one read-only transaction,
     so it never mixes data from before and after a change.
 12. **Head counts are of active people.** A department's head count leaves out deleted employees.
+
+## About this repository
+
+This is a test project for [Codist](https://github.com/AbiXnash/codist), built commit by commit by
+`testbed/make_records_lab.py` in [codist-eval](https://github.com/AbiXnash/codist-eval). Some commits contain
+planted bugs; the answer key and the scores are kept in codist-eval, not here.
